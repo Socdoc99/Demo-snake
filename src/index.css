@@ -1,0 +1,127 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Press Start 2P", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "VT323", ui-monospace, SFMono-Regular, monospace;
+}
+
+body {
+  background-color: #000;
+  color: #0ff;
+  overflow: hidden;
+  margin: 0;
+}
+
+.glitch-wrapper { position: relative; display: inline-block; }
+
+.glitch {
+  position: relative;
+  color: #fff;
+  font-weight: bold;
+}
+
+.glitch::before, .glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  pointer-events: none;
+}
+
+.glitch::before {
+  left: 3px;
+  text-shadow: -2px 0 #0ff;
+  clip-path: inset(24% 0 54% 0);
+  animation: glitch-anim-2 2s infinite linear alternate-reverse;
+  z-index: -1;
+}
+
+.glitch::after {
+  left: -3px;
+  text-shadow: -2px 0 #f0f;
+  clip-path: inset(84% 0 6% 0);
+  animation: glitch-anim 2.5s infinite linear alternate-reverse;
+  z-index: -2;
+}
+
+@keyframes glitch-anim {
+  0% { clip-path: inset(40% 0 61% 0); transform: translate(-2px, 2px); }
+  20% { clip-path: inset(92% 0 1% 0); transform: translate(1px, -2px); }
+  40% { clip-path: inset(43% 0 1% 0); transform: translate(2px, 1px); }
+  60% { clip-path: inset(25% 0 58% 0); transform: translate(-2px, -1px); }
+  80% { clip-path: inset(54% 0 7% 0); transform: translate(2px, 2px); }
+  100% { clip-path: inset(58% 0 43% 0); transform: translate(-1px, 1px); }
+}
+
+@keyframes glitch-anim-2 {
+  0% { clip-path: inset(24% 0 29% 0); transform: translate(2px, 1px); }
+  20% { clip-path: inset(54% 0 21% 0); transform: translate(-1px, -2px); }
+  40% { clip-path: inset(22% 0 24% 0); transform: translate(2px, 2px); }
+  60% { clip-path: inset(98% 0 1% 0); transform: translate(-2px, -1px); }
+  80% { clip-path: inset(61% 0 19% 0); transform: translate(-1px, 2px); }
+  100% { clip-path: inset(43% 0 21% 0); transform: translate(2px, -1px); }
+}
+
+.scanlines {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+  background-size: 100% 4px, 3px 100%;
+  pointer-events: none;
+  z-index: 50;
+}
+
+.static-noise {
+  position: fixed;
+  top: -50%; left: -50%; right: -50%; bottom: -50%;
+  width: 200%; height: 200%;
+  background: transparent url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E');
+  opacity: 0.15;
+  animation: static-shift 0.2s steps(2) infinite;
+  pointer-events: none;
+  z-index: 49;
+}
+
+@keyframes static-shift {
+  0% { transform: translate(0,0) }
+  10% { transform: translate(-5%,-5%) }
+  20% { transform: translate(-10%,5%) }
+  30% { transform: translate(5%,-10%) }
+  40% { transform: translate(-5%,15%) }
+  50% { transform: translate(-10%,5%) }
+  60% { transform: translate(15%,0) }
+  70% { transform: translate(0,15%) }
+  80% { transform: translate(3%,35%) }
+  90% { transform: translate(-10%,10%) }
+  100% { transform: translate(0,0) }
+}
+
+.screen-tear {
+  animation: tear 4s infinite steps(1);
+}
+
+@keyframes tear {
+  0% { transform: translateX(0) skewX(0); filter: drop-shadow(0 0 0 transparent); }
+  92% { transform: translateX(0) skewX(0); filter: drop-shadow(0 0 0 transparent); }
+  94% { transform: translateX(-5px) skewX(2deg); filter: drop-shadow(5px 0 0 #f0f) drop-shadow(-5px 0 0 #0ff); }
+  96% { transform: translateX(5px) skewX(-2deg); filter: drop-shadow(-5px 0 0 #f0f) drop-shadow(5px 0 0 #0ff); }
+  98% { transform: translateX(0) skewX(0); filter: drop-shadow(0 0 0 transparent); }
+  100% { transform: translateX(0) skewX(0); }
+}
+
+.jarring-box {
+  border: 4px solid #0ff;
+  box-shadow: 6px 6px 0 #f0f;
+  background: #000;
+  transition: all 0.1s steps(2);
+}
+
+.jarring-box:hover, .jarring-box:focus {
+  border-color: #f0f;
+  box-shadow: -6px -6px 0 #0ff;
+  outline: none;
+}
